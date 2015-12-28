@@ -1,0 +1,26 @@
+package com.epam.brest.courses.testers.dao;
+
+import com.epam.brest.courses.testers.domain.User;
+
+import java.util.List;
+
+/**
+ * Created by xalf on 25.12.15.
+ */
+public interface UserDao {
+
+    List<User> getAllUsers();
+
+    List<User> getUserById(Integer userId);
+
+    List<User> getUserByLogin(String login);
+
+    Integer getTotalUsersCount();
+
+    Integer addUser(User user);
+
+    void updateUser(User user);
+
+    void deleteUser(Integer userId);
+
+}
