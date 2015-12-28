@@ -5,13 +5,21 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +44,18 @@ public class RequestDaoImpl implements RequestDao {
     @Value("${request.select}")
     private String requestSelectSql;
 
+    @Value("${request.insertRequest}")
+    private String insertRequestSql;
+
+    @Value("${request.updateRequest}")
+    private String updateRequestSql;
+
+    @Value("${request.deleteRequestById}")
+    private String deleteRequestByIdSql;
+
+    @Value("${request.deleteRequestByUserId}")
+    private String deleteRequestByUserIdSql;
+
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -58,17 +78,56 @@ public class RequestDaoImpl implements RequestDao {
     @Override
     public Integer addRequest(Request request) {
         LOGGER.debug("addRequest({})", request);
-        return null;
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue(USER_ID, request.getUserId());
+        params.addValue(STATUS, request.getStatus().toString());
+
+        LocalDateTime ldt = LocalDateTime.ofInstant(request.getUpdatedDate().toInstant(), ZoneId.systemDefault());
+        params.addValue(UPDATED_DATE, ldt.format(UserDaoImpl.formatter));
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        namedParameterJdbcTemplate.update(insertRequestSql, params, keyHolder);
+        return keyHolder.getKey().intValue();
     }
 
     @Override
     public void updateRequest(Request request) {
-        LOGGER.debug("updateRequest({})", request);
+        LOGGER.debug("updateRequestSql({})", request);
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue(USER_ID, request.getUserId());
+        params.addValue(STATUS, request.getStatus().toString());
+
+        LocalDateTime ldt = LocalDateTime.ofInstant(request.getUpdatedDate().toInstant(), ZoneId.systemDefault());
+        params.addValue(UPDATED_DATE, ldt.format(UserDaoImpl.formatter));
+
+        jdbcTemplate.update(updateRequestSql, params);
     }
 
     @Override
     public void deleteRequest(Integer requestId) {
         LOGGER.debug("deleteRequest({})", requestId);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("requestId", requestId);
+        namedParameterJdbcTemplate.execute(deleteRequestByIdSql, params, new PreparedStatementCallback<Object>() {
+            @Override
+            public Object doInPreparedStatement(PreparedStatement preparedStatement) throws SQLException, DataAccessException {
+                return preparedStatement.executeUpdate();
+            }
+        });
+    }
+
+    @Override
+    public void deleteUserRequests(Integer userId) {
+        LOGGER.debug("deleteUserRequests({})", userId);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("userId", userId);
+        namedParameterJdbcTemplate.execute(deleteRequestByUserIdSql, params, new PreparedStatementCallback<Object>() {
+            @Override
+            public Object doInPreparedStatement(PreparedStatement preparedStatement) throws SQLException, DataAccessException {
+                return preparedStatement.executeUpdate();
+            }
+        });
     }
 
     private List<Request> rowMapper(List<Map<String, Object>> values) {

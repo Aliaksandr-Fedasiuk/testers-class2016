@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDao {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final DateTimeFormatter formatter =
+    public static final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 
     public static final String USER_ID = "userId";

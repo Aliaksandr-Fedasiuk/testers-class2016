@@ -17,4 +17,6 @@ public interface RequestDao {
 
     void deleteRequest(Integer requestId);
 
+    void deleteUserRequests(Integer userId);
+
 }

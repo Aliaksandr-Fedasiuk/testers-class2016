@@ -31,4 +31,20 @@ public class RequestRest {
         return requestService.getRequests(userId);
     }
 
+    @RequestMapping(value = "/request/delete/{requestId}", method = RequestMethod.GET)
+    @JsonView(RequestView.Summary.class)
+    @ResponseBody
+    public void deleteRequest(@PathVariable Integer requestId) {
+        LOGGER.debug("deleteRequest({})", requestId);
+        requestService.deleteRequest(requestId);
+    }
+
+    @RequestMapping(value = "/requests/delete/{userId}", method = RequestMethod.GET)
+    @JsonView(RequestView.Summary.class)
+    @ResponseBody
+    public void deleteRequests(@PathVariable Integer userId) {
+        LOGGER.debug("deleteRequests({})", userId);
+        requestService.deleteUserRequests(userId);
+    }
+
 }

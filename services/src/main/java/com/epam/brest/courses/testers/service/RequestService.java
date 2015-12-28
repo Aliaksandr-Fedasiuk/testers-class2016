@@ -11,4 +11,8 @@ public interface RequestService {
 
     List<Request> getRequests(Integer userId);
 
+    void deleteRequest(Integer requestId);
+
+    void deleteUserRequests(Integer userId);
+
 }

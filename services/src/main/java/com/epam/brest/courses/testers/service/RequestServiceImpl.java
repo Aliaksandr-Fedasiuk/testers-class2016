@@ -28,4 +28,15 @@ public class RequestServiceImpl implements RequestService {
         return requestDao.getRequests(userId);
     }
 
+    @Override
+    public void deleteRequest(Integer requestId) {
+        LOGGER.debug("deleteRequest({})", requestId);
+        requestDao.deleteRequest(requestId);
+    }
+
+    @Override
+    public void deleteUserRequests(Integer userId) {
+        LOGGER.debug("deleteUserRequests({})", userId);
+        requestDao.deleteUserRequests(userId);
+    }
 }
