@@ -37,9 +37,8 @@ function drawRow(user) {
 }
 
 function renderList(data) {
-    var dto = data.users == null ? [] : (data.users instanceof Array ? data.users : [data.users]);
     $('#userList tr').remove();
-    $.each(dto, function (index, user) {
+    $.each(data, function (index, user) {
         drawRow(user);
     });
 }

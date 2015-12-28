@@ -14,6 +14,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import javax.xml.crypto.Data;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -36,14 +37,14 @@ public class UserDaoImpl implements UserDao {
     private static final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 
-    public static final String USERID = "userid";
+    public static final String USER_ID = "userId";
     public static final String NAME = "name";
     public static final String LOGIN = "login";
     public static final String PASSWORD = "password";
     public static final String AMOUNT = "amount";
     public static final String MANAGER_ID = "managerId";
     public static final String ROLE = "role";
-    public static final String CREATED_DATE = "createddate";
+    public static final String CREATED_DATE = "createdDate";
     public static final String UPDATED_DATE = "updatedDate";
 
     @Value("${user.select}")
@@ -80,8 +81,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        LOGGER.debug("getAllUsers()");
+    public List<User> getUsers() {
+        LOGGER.debug("getUsers()");
         return rowMapper(jdbcTemplate.queryForList(userSelectSql));
     }
 
@@ -90,7 +91,6 @@ public class UserDaoImpl implements UserDao {
         LOGGER.debug("getUserById({})", userId);
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", userId);
-        namedParameterJdbcTemplate.queryForMap(userSelectByIdSql, params);
 
         List<Map<String, Object>> res = new ArrayList<Map<String, Object>>();
         res.add(namedParameterJdbcTemplate.queryForMap(userSelectByIdSql, params));
@@ -138,7 +138,7 @@ public class UserDaoImpl implements UserDao {
     public void updateUser(User user) {
         LOGGER.debug("updateUser({})", user.getLogin());
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue(USERID, user.getUserId());
+        params.addValue(USER_ID, user.getUserId());
         params.addValue(NAME, user.getName());
         params.addValue(PASSWORD, user.getPassword());
         params.addValue(AMOUNT, user.getAmount());
@@ -160,26 +160,22 @@ public class UserDaoImpl implements UserDao {
         List<User> users = new ArrayList<User>();
         for (Map row : values) {
             User user = new User(Role.valueOf(valueOf(row.get(ROLE))));
-            user.setUserId(parseInt(valueOf(row.get(USERID))));
+            user.setUserId(parseInt(valueOf(row.get(USER_ID))));
             user.setName(valueOf(row.get(NAME)));
             user.setLogin(valueOf(row.get(LOGIN)));
             user.setPassword(valueOf(row.get(PASSWORD)));
             user.setAmount(parseDouble(valueOf(row.get(AMOUNT))));
             user.setManagerId(parseInt(valueOf(row.get(MANAGER_ID))));
-
-            LocalDateTime ldt = parseTimestamp((Timestamp) row.get(CREATED_DATE));
-            user.setUpdatedDate(Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant()));
-
-            ldt = parseTimestamp((Timestamp) row.get(UPDATED_DATE));
-            user.setUpdatedDate(Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant()));
-
+            user.setUpdatedDate(parseTimestamp((Timestamp) row.get(CREATED_DATE)));
+            user.setUpdatedDate(parseTimestamp((Timestamp) row.get(UPDATED_DATE)));
             users.add(user);
         }
         return users;
     }
 
-    private LocalDateTime parseTimestamp(Timestamp time) {
-        return (time).toLocalDateTime().truncatedTo(ChronoUnit.SECONDS);
+    public static Date parseTimestamp(Timestamp time) {
+        LocalDateTime ldt = (time).toLocalDateTime().truncatedTo(ChronoUnit.SECONDS);
+        return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
     }
 
 }

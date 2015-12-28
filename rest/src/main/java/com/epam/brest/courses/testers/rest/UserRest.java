@@ -25,10 +25,10 @@ public class UserRest {
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     @JsonView(UserView.Summary.class)
-    public @ResponseBody List<User> getUsers() {
+    @ResponseBody
+    public List<User> getUsers() {
         LOGGER.debug("getUsers()");
-        return userService.getAllUsers();
+        return userService.getUsers();
     }
-
 
 }

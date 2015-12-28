@@ -34,8 +34,8 @@ public class UserDaoImplTest {
 
     @Test
     public void testGetAllUsers() throws Exception {
-        LOGGER.debug("test: getAllUsers()");
-        List<User> users = userDao.getAllUsers();
+        LOGGER.debug("test: getUsers()");
+        List<User> users = userDao.getUsers();
         assertTrue(users.size() == 2);
     }
 
@@ -43,7 +43,7 @@ public class UserDaoImplTest {
     public void testGetUser() throws Exception {
         LOGGER.debug("test: getUser()");
 
-        List<User> users = userDao.getAllUsers();
+        List<User> users = userDao.getUsers();
         assertTrue(users.size() > 0);
 
         Integer userId = users.get(0).getUserId();
@@ -63,7 +63,7 @@ public class UserDaoImplTest {
 //    @Test
 //    public void testCountUsers() throws Exception {
 //        LOGGER.debug("test: countUsers()");
-//        String login = userDao.getAllUsers().get(0).getLogin();
+//        String login = userDao.getUsers().get(0).getLogin();
 //        assertNotNull(login);
 //        Integer usersCount = userDao.getCountUsers(login);
 //        assertNotNull(usersCount);
@@ -82,7 +82,7 @@ public class UserDaoImplTest {
     @Test
     public void testTotalUsersCount() throws Exception {
         LOGGER.debug("test: totalUsersCount()");
-        Integer length = userDao.getAllUsers().size();
+        Integer length = userDao.getUsers().size();
         Integer usersCount = userDao.getTotalUsersCount();
         assertEquals(length, usersCount);
     }
@@ -122,10 +122,10 @@ public class UserDaoImplTest {
 //    @Test
 //    public void testDeleteUser() throws Exception {
 //        LOGGER.debug("test :deleteUser()");
-//        List<User> users = userDao.getAllUsers();
+//        List<User> users = userDao.getUsers();
 //        assertTrue(users.size() > 0);
 //        int sizeBefore = users.size();
 //        userDao.deleteUser(users.get(0).getUserId());
-//        assertTrue((sizeBefore - 1) == userDao.getAllUsers().size());
+//        assertTrue((sizeBefore - 1) == userDao.getUsers().size());
 //    }
 }

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface UserDao {
 
-    List<User> getAllUsers();
+    List<User> getUsers();
 
     List<User> getUserById(Integer userId);
 

@@ -23,9 +23,9 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public List<User> getAllUsers() {
-        LOGGER.debug("getAllUsers()");
-        return userDao.getAllUsers();
+    public List<User> getUsers() {
+        LOGGER.debug("getUsers()");
+        return userDao.getUsers();
     }
 
     @Override
@@ -63,4 +63,5 @@ public class UserServiceImpl implements UserService {
         LOGGER.debug("deleteUser({})", userId);
         userDao.deleteUser(userId);
     }
+
 }
