@@ -28,6 +28,7 @@ public class ActionDaoImpl implements ActionDao {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    public static final String ACTION_ID = "actionId";
     public static final String REQUEST_ID = "requestId";
     public static final String TYPE = "type";
     public static final String POINTS = "points";
@@ -86,6 +87,7 @@ public class ActionDaoImpl implements ActionDao {
         List<Action> actions = new ArrayList<Action>();
         for (Map row : values) {
             Action action = new Action(Action.ActionType.valueOf(String.valueOf(row.get(TYPE))));
+            action.setActionId(parseInt(String.valueOf(row.get(ACTION_ID))));
             action.setRequestId(parseInt(String.valueOf(row.get(REQUEST_ID))));
             action.setCreatedDate(UserDaoImpl.parseTimestamp((Timestamp) row.get(CREATED_DATE)));
             actions.add(action);
