@@ -166,7 +166,7 @@ public class UserDaoImpl implements UserDao {
             user.setPassword(valueOf(row.get(PASSWORD)));
             user.setAmount(parseDouble(valueOf(row.get(AMOUNT))));
             user.setManagerId(parseInt(valueOf(row.get(MANAGER_ID))));
-            user.setUpdatedDate(parseTimestamp((Timestamp) row.get(CREATED_DATE)));
+            user.setCreatedDate(parseTimestamp((Timestamp) row.get(CREATED_DATE)));
             user.setUpdatedDate(parseTimestamp((Timestamp) row.get(UPDATED_DATE)));
             users.add(user);
         }

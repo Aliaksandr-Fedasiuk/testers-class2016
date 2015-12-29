@@ -1,5 +1,9 @@
 package com.epam.brest.courses.testers.domain;
 
+import com.epam.brest.courses.testers.view.ActionView;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.util.Date;
 
 /**
@@ -7,16 +11,25 @@ import java.util.Date;
  */
 public class Action {
 
+    @JsonView(ActionView.Summary.class)
     private Integer actionId;
 
-    private Integer userId;
+    @JsonView(ActionView.Summary.class)
+    private Integer requestId;
 
-    private final ActionName name;
+    @JsonView(ActionView.Summary.class)
+    private final ActionType type;
 
+    @JsonView(ActionView.Summary.class)
+    private final Double points;
+
+    @JsonView(ActionView.Summary.class)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private Date createdDate = new Date();
 
-    public Action(ActionName name) {
-        this.name = name;
+    public Action(ActionType type) {
+        this.type = type;
+        this.points = type.points;
     }
 
     public Integer getActionId() {
@@ -27,8 +40,20 @@ public class Action {
         this.actionId = actionId;
     }
 
-    public ActionName getName() {
-        return name;
+    public Integer getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(Integer requestId) {
+        this.requestId = requestId;
+    }
+
+    public ActionType getType() {
+        return type;
+    }
+
+    public Double getPoints() {
+        return points;
     }
 
     public Date getCreatedDate() {
@@ -39,7 +64,19 @@ public class Action {
         this.createdDate = createdDate;
     }
 
-    enum ActionName {
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Action: [");
+        sb.append("actionId=").append(actionId);
+        sb.append(", requestId=").append(requestId);
+        sb.append(", type=").append(type);
+        sb.append(", points=").append(points);
+        sb.append(", createdDate=").append(createdDate);
+        sb.append(']');
+        return sb.toString();
+    }
+
+    public enum ActionType {
 
         IMPORT_REPORT(2),
         CANCEL_REQ(-2),
@@ -50,8 +87,12 @@ public class Action {
 
         private double points;
 
-        ActionName(double points) {
+        ActionType(double points) {
             this.points = points;
+        }
+
+        public double getPoints() {
+            return points;
         }
     }
 

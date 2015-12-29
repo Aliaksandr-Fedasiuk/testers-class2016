@@ -136,7 +136,7 @@ public class RequestDaoImpl implements RequestDao {
             Request request = new Request(parseInt(String.valueOf(row.get(USER_ID))),
                     Status.valueOf(String.valueOf(row.get(STATUS))));
             request.setRequestId(parseInt(String.valueOf(row.get(REQUEST_ID))));
-            request.setUpdatedDate(UserDaoImpl.parseTimestamp((Timestamp) row.get(CREATED_DATE)));
+            request.setCreatedDate(UserDaoImpl.parseTimestamp((Timestamp) row.get(CREATED_DATE)));
             request.setUpdatedDate(UserDaoImpl.parseTimestamp((Timestamp) row.get(UPDATED_DATE)));
             requests.add(request);
         }
