@@ -1,4 +1,5 @@
-INSERT INTO USER(userId, name, login, password, amount, managerId, role, createdDate, updatedDate) VALUES (1, 'FIO1', 'login1', 'password', 0, 0, 'ADMIN', TO_TIMESTAMP('14/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'), TO_TIMESTAMP('14/10/2015 20:30:00.099', 'DD/MM/YYYY HH:MI:SS'));
+INSERT INTO USER(userId, name, login, password, amount, managerId, role, createdDate, updatedDate) VALUES (0, 'FIO', 'admin', 'admin', 0, 0, 'ADMIN', TO_TIMESTAMP('14/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'), TO_TIMESTAMP('14/10/2015 20:30:00.099', 'DD/MM/YYYY HH:MI:SS'));
+INSERT INTO USER(userId, name, login, password, amount, managerId, role, createdDate, updatedDate) VALUES (1, 'FIO1', 'login1', 'password', 0, 0, 'MANAGER', TO_TIMESTAMP('14/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'), TO_TIMESTAMP('14/10/2015 20:30:00.099', 'DD/MM/YYYY HH:MI:SS'));
 INSERT INTO USER(userId, name, login, password, amount, managerId, role, createdDate, updatedDate) VALUES (2, 'FIO2', 'login2', 'password', 0, 0, 'SUBORDINATE', TO_TIMESTAMP('14/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'), TO_TIMESTAMP('14/10/2015 20:30:00.000', 'DD/MM/YYYY HH:MI:SS'));
 
 INSERT INTO REQUEST(requestId, userId, status, createdDate, updatedDate) VALUES (1, 1, 'OPEN', TO_TIMESTAMP('14/10/2015 20:30:00', 'DD/MM/YYYY HH:MI:SS'), TO_TIMESTAMP('14/10/2015 20:30:00.099', 'DD/MM/YYYY HH:MI:SS'));
