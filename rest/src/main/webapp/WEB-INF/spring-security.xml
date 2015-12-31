@@ -21,18 +21,18 @@
 
         <security:csrf disabled="true"/>
         <security:custom-filter ref="restAuthenticationFilter" position="FORM_LOGIN_FILTER"/>
-        <security:intercept-url pattern="/*" access="permitAll"/>
-        <security:intercept-url pattern="/secure/**" access="isFullyAuthenticated()"/>
+        <security:intercept-url pattern="/login" access="permitAll"/>
+        <security:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_SUBORDINATE')"/>
     </security:http>
 
     <bean id="unauthorizedEntryPoint" class="com.epam.brest.courses.testers.security.UnauthorizedEntryPoint"/>
-
-    <bean id="userService" class="com.epam.brest.courses.testers.service.UserServiceImpl"/>
 
     <!-- Authentication manager -->
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider user-service-ref="userService"/>
     </security:authentication-manager>
+
+    <bean id="userService" class="com.epam.brest.courses.testers.service.UserServiceImpl"/>
 
     <bean id="tokenManager" class="com.epam.brest.courses.testers.security.TokenManagerSingle"/>
 

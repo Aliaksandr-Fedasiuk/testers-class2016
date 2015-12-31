@@ -2,6 +2,7 @@ package com.epam.brest.courses.testers.service;
 
 import com.epam.brest.courses.testers.dao.UserDao;
 import com.epam.brest.courses.testers.domain.User;
+import com.epam.brest.courses.testers.security.UserContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        return userDao.getUserByLogin(login).get(0);
+        User user = userDao.getUserByLogin(login).get(0);
+        return new UserContext(user);
     }
 }

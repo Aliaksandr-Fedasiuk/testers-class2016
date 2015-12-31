@@ -54,14 +54,14 @@ public class UserRest {
                 "Realize, please, that Authorization request (or the one with testing X-headers) must be POST, otherwise they are ignored.";
     }
 
-    //@RolesAllowed("ADMIN")
-    @PreAuthorize("isAuthenticated()")
+    @Secured("ADMIN")
     @RequestMapping("/admin")
     public String admin() {
         LOGGER.debug("*** UserRest.admin()");
         return "Cool, you're admin!";
     }
 
+    @PreAuthorize("isFullyAuthenticated()")
     @RequestMapping("/secure/service1")
     public String service1() {
         LOGGER.debug("*** UserRest.service1()");
@@ -75,15 +75,13 @@ public class UserRest {
         return tokenManager.getUserTokens(currentUser);
     }
 
-    //@Secured("ADMIN")
-    @PreAuthorize("@userService.canAccessUser(principal, #username)")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/secure/special")
     public String special() {
         LOGGER.debug("*** UserRest.special");
         return "MANAGER users should have access.";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/secure/users")
     public Map<String, UserDetails> users() {
         LOGGER.debug("*** UserRest.users");

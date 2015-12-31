@@ -15,12 +15,12 @@ import java.util.*;
 /**
  * Created by xalf on 25.12.15.
  */
-public class User implements UserDetails {
+public class User {
 
     private static final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 
-    public enum Role { ADMIN, MANAGER, SUBORDINATE }
+    public enum Role { ROLE_ADMIN, ROLE_MANAGER, ROLE_SUBORDINATE }
 
     @JsonView(UserView.Summary.class)
     private Integer userId;
@@ -127,38 +127,6 @@ public class User implements UserDetails {
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority(getRole().toString()));
-        return authorities;
-    }
-
-    @Override
-    public String getUsername() {
-        return getLogin();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
     @Override
