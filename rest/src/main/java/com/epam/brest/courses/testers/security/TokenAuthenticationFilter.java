@@ -19,7 +19,7 @@ import java.util.StringTokenizer;
  */
 public class TokenAuthenticationFilter extends GenericFilterBean {
 
-    private static final String HEADER_TOKEN = "X-Auth-Token";
+    private static final String HEADER_TOKEN = "X-Authorization";
     private static final String HEADER_USERNAME = "X-Username";
     private static final String HEADER_PASSWORD = "X-Password";
 
@@ -66,7 +66,10 @@ public class TokenAuthenticationFilter extends GenericFilterBean {
     }
 
     private void checkLogin(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
-        String authorization = httpRequest.getHeader("Authorization");
+        String authorization = httpRequest.getHeader(HEADER_TOKEN);
+        if ((authorization != null) && (authorization.equalsIgnoreCase("null"))) {
+            authorization = null;
+        }
         String username = httpRequest.getHeader(HEADER_USERNAME);
         String password = httpRequest.getHeader(HEADER_PASSWORD);
 
@@ -112,7 +115,7 @@ public class TokenAuthenticationFilter extends GenericFilterBean {
      */
     private boolean checkToken(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
         String token = httpRequest.getHeader(HEADER_TOKEN);
-        if (token == null) {
+        if ((token == null) || (token.equalsIgnoreCase("null"))) {
             return false;
         }
 

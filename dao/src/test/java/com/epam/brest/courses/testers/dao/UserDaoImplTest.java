@@ -30,7 +30,7 @@ public class UserDaoImplTest {
     @Autowired
     private UserDao userDao;
 
-    private static final User user = new User(Role.ADMIN, "FIO3", "login3", "password3");
+    private static final User user = new User(Role.ROLE_ADMIN, "FIO3", "login3", "password3");
 
     @Test
     public void testGetAllUsers() throws Exception {

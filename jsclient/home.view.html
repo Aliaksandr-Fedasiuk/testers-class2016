@@ -1,0 +1,26 @@
+<h1>Hi, {{vm.user.name}}! You're logged in!</h1>
+</br>
+<h3>All registered users:</h3>
+</br>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Login</th>
+            <th>FIO</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody id="userList">
+        <tr ng-repeat="user in vm.allUsers">
+            <td><a href="#" data-identity={{user.userId}} ng-click="vm.editUser(user.userId)">{{user.login}}</a></td>
+            <td>{{user.name}}</td>
+            <td>{{user.amount}}</td>
+            <td><a href="#" ng-click="vm.deleteUser(user.userId)">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<p>&nbsp;</p>
+<p><a href="#/login" class="btn btn-primary">Logout</a></p>
