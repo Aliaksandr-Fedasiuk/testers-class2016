@@ -2,6 +2,7 @@ package com.epam.brest.courses.testers.domain;
 
 import com.epam.brest.courses.testers.view.UserView;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,7 +32,11 @@ public class User {
     @JsonView(UserView.Summary.class)
     private String login;
 
+    @JsonView(UserView.Summary.class)
     private String password;
+
+    @JsonView(UserView.Summary.class)
+    private String passwordConfirm;
 
     @JsonView(UserView.Summary.class)
     private Double amount = 0d;
@@ -49,6 +54,10 @@ public class User {
     @JsonView(UserView.Summary.class)
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private Date updatedDate = new Date();
+
+    public User() {
+        role = Role.ROLE_SUBORDINATE;
+    }
 
     public User(Role role) {
         this.role = role;
@@ -91,6 +100,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     public Integer getManagerId() {

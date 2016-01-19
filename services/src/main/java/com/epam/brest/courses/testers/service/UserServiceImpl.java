@@ -59,7 +59,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void updateUser(User user) {
         LOGGER.debug("updateUser({})", user);
-        userDao.updateUser(user);
+        User srcUser = userDao.getUserById(user.getUserId()).get(0);
+        if (!srcUser.equals(user)) {
+            userDao.updateUser(user);
+        } else {
+            LOGGER.debug("Users are equals. Username: " + user.getLogin());
+        }
     }
 
     @Override

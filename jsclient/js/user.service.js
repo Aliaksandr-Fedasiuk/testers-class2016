@@ -29,13 +29,14 @@
                     handleError('Error getting all users')
                     if (data.statusText == "Unauthorized") {
                         $location.path('/login');
+                        console.log($location.path());
                     }
                 }
             );
         }
 
         function GetById(id) {
-            return $http.get('/api/users/' + id).then(handleSuccess, handleError('Error getting user by id'));
+            return $http.get('http://localhost:8090/rest/v1/user/' + userId).then(handleSuccess, handleError('Error getting user by id'));
         }
 
         function GetByUsername(username) {
@@ -49,7 +50,8 @@
         }
 
         function Update(user) {
-            return $http.put('/api/users/' + user.id, user).then(handleSuccess, handleError('Error updating user'));
+            return $http.put('http://localhost:8090/rest/v1/user/put', user)
+                .then(handleSuccess, handleError('Error updating user'));
         }
 
         function Delete(id) {

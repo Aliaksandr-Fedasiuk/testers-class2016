@@ -20,9 +20,9 @@
                 controllerAs: 'vm'
             })
 
-            .when('/editUser', {
+            .when('/edit/:username', {
                 controller: 'EditUserController',
-                templateUrl: 'editUser.view.html',
+                templateUrl: 'edit.view.html',
                 controllerAs: 'vm'
             })
 
@@ -33,6 +33,7 @@
             })
 
             .otherwise({ redirectTo: '/login' });
+
     }
 
     run.$inject = ['$rootScope', '$location', '$cookieStore', '$http'];

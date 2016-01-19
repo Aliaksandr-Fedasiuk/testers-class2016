@@ -5,13 +5,12 @@
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['UserService', '$location', '$rootScope'];
-    function HomeController(UserService, $location, $rootScope) {
+    HomeController.$inject = ['UserService', '$rootScope'];
+    function HomeController(UserService, $rootScope) {
         var vm = this;
 
         vm.user = null;
         vm.allUsers = [];
-        vm.editUser = editUser;
         vm.deleteUser = deleteUser;
 
         initController();
@@ -34,10 +33,6 @@
                     vm.allUsers = users;
                 }
             );
-        }
-
-        function editUser(id) {
-            $location.path('/editUser');
         }
 
         function deleteUser(id) {
