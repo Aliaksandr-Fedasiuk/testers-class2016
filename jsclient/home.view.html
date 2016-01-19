@@ -13,7 +13,7 @@
         </thead>
         <tbody id="userList">
         <tr ng-repeat="user in vm.allUsers">
-            <td><a href="#" data-identity={{user.userId}} ng-click="vm.editUser(user.userId)">{{user.login}}</a></td>
+            <td><a ng-href="#/editUser/{{user.userId}}">{{user.login}}</a></td>
             <td>{{user.name}}</td>
             <td>{{user.amount}}</td>
             <td><a href="#" ng-click="vm.deleteUser(user.userId)">Delete</a></td>
