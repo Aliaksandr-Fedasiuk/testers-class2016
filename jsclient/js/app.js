@@ -20,6 +20,12 @@
                 controllerAs: 'vm'
             })
 
+            .when('/add', {
+                controller: 'AddUserController',
+                templateUrl: 'add.view.html',
+                controllerAs: 'vm'
+            })
+
             .when('/edit/:username', {
                 controller: 'EditUserController',
                 templateUrl: 'edit.view.html',

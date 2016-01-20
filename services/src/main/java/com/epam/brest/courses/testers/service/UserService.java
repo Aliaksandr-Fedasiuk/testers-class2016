@@ -19,7 +19,9 @@ public interface UserService {
 
     Integer addUser(User user);
 
-    void updateUser(User user);
+    void updateUserWithPassword(User user);
+
+    void updateUserWithoutPassword(User user);
 
     void deleteUser(Integer userId);
 

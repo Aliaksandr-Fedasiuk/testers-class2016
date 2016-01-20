@@ -101,23 +101,22 @@ public class UserDaoImplTest {
         assertNotNull(newUser.getCreatedDate());
     }
 
-//    @Test
-//    public void testUpdateUser() throws Exception {
-//        LOGGER.debug("test: updateUser()");
-//        User user = userDao.getUserByLogin(USER_LOGIN).get(0);
-//        user.setPassword(USER_PASSWORD + 12);
-//        user.setAmount(2d);
-//        user.setName("FIO");
-//
-//        userDao.updateUser(user);
-//
-//        User newUser = userDao.getUserById(user.getUserId()).get(0);
-//        assertTrue(user.getName().equals(newUser.getName()));
-//        assertTrue(user.getLogin().equals(newUser.getLogin()));
-//        assertTrue(user.getPassword().equals(newUser.getPassword()));
-//        assertTrue(user.getAmount().equals(newUser.getAmount()));
-//        assertTrue(user.getCreatedDate().equals(newUser.getCreatedDate()));
-//    }
+    @Test
+    public void testUpdateUser() throws Exception {
+        LOGGER.debug("test: updateUser()");
+        User user = userDao.getUserByLogin(USER_LOGIN).get(0);
+        user.setAmount(2d);
+        user.setName("FIO");
+
+        userDao.updateUser(user, false);
+
+        User newUser = userDao.getUserById(user.getUserId()).get(0);
+        assertTrue(user.getName().equals(newUser.getName()));
+        assertTrue(user.getLogin().equals(newUser.getLogin()));
+        assertTrue(user.getPassword().equals(newUser.getPassword()));
+        assertTrue(user.getAmount().equals(newUser.getAmount()));
+        assertTrue(user.getCreatedDate().equals(newUser.getCreatedDate()));
+    }
 
 //    @Test
 //    public void testDeleteUser() throws Exception {

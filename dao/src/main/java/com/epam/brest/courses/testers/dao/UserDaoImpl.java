@@ -65,8 +65,11 @@ public class UserDaoImpl implements UserDao {
     @Value("${user.insertUser}")
     private String insertUserSql;
 
-    @Value("${user.updateUser}")
-    private String updateUserSql;
+    @Value("${user.updateUserWithoutPassword}")
+    private String updateUserWithoutPassword;
+
+    @Value("${user.updateUserWithPassword}")
+    private String updateUserWithPassword;
 
     @Value("${user.deleteUser}")
     private String deleteUserSql;
@@ -90,7 +93,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> getUserById(Integer userId) {
         LOGGER.debug("getUserById({})", userId);
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("userId", userId);
+        params.addValue(USER_ID, userId);
 
         List<Map<String, Object>> res = new ArrayList<Map<String, Object>>();
         res.add(namedParameterJdbcTemplate.queryForMap(userSelectByIdSql, params));
@@ -135,20 +138,19 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateUser(User user, boolean isPasswordNeedUpdate) {
         LOGGER.debug("updateUser({})", user.getLogin());
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue(USER_ID, user.getUserId());
-        params.addValue(NAME, user.getName());
-        params.addValue(PASSWORD, user.getPassword());
-        params.addValue(AMOUNT, user.getAmount());
-        params.addValue(MANAGER_ID, user.getManagerId());
-        params.addValue(ROLE, user.getRole().toString());
 
-        LocalDateTime ldt = LocalDateTime.ofInstant(user.getUpdatedDate().toInstant(), ZoneId.systemDefault());
-        params.addValue(UPDATED_DATE, ldt.format(formatter));
+        LocalDateTime ldt =
+                LocalDateTime.ofInstant(user.getUpdatedDate().toInstant(), ZoneId.systemDefault());
 
-        jdbcTemplate.update(updateUserSql, params);
+        if (isPasswordNeedUpdate) {
+            jdbcTemplate.update(updateUserWithPassword, user.getName(), user.getPassword(), user.getAmount(),
+                    user.getManagerId(), user.getRole().toString(), ldt.format(formatter), user.getUserId());
+        } else {
+            jdbcTemplate.update(updateUserWithoutPassword, user.getName(), user.getAmount(),
+                    user.getManagerId(), user.getRole().toString(), ldt.format(formatter), user.getUserId());
+        }
     }
 
     @Override

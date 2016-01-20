@@ -162,6 +162,20 @@ public class User {
                 Objects.equals(updatedDate, user.updatedDate);
     }
 
+    public boolean equalsExcludePassword(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(userId, user.userId) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(login, user.login) &&
+                Objects.equals(amount, user.amount) &&
+                Objects.equals(managerId, user.managerId) &&
+                role == user.role &&
+                Objects.equals(createdDate, user.createdDate) &&
+                Objects.equals(updatedDate, user.updatedDate);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(userId, name, login, password, amount, managerId, role, createdDate, updatedDate);

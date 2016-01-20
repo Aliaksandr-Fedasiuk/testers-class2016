@@ -2,9 +2,6 @@ package com.epam.brest.courses.testers.rest;
 
 import com.epam.brest.courses.testers.UserNotFoundException;
 import com.epam.brest.courses.testers.domain.User;
-import com.epam.brest.courses.testers.security.AuthenticationService;
-import com.epam.brest.courses.testers.security.TokenInfo;
-import com.epam.brest.courses.testers.security.TokenManager;
 import com.epam.brest.courses.testers.view.UserView;
 import com.epam.brest.courses.testers.service.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -13,16 +10,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by xalf on 27.12.15.
@@ -31,6 +23,7 @@ import java.util.Map;
 public class UserRest {
 
     private static final Logger LOGGER = LogManager.getLogger();
+    private static final String DEFAULT_PASSWORD = "!!!!!!!!!!#!!!!!!!!!!";
 
     @Autowired
     private UserService userService;
@@ -43,8 +36,8 @@ public class UserRest {
         LOGGER.debug("UserRest.getUsers()");
         List<User> users = userService.getUsers();
         for (User user : users) {
-            user.setPassword("");
-            user.setPasswordConfirm("");
+            user.setPassword(DEFAULT_PASSWORD);
+            user.setPasswordConfirm(DEFAULT_PASSWORD);
         }
         return users;
     }
@@ -58,11 +51,25 @@ public class UserRest {
         try {
             List<User> users = userService.getUserByLogin(username);
             User user = users.get(0);
-            user.setPassword("");
-            user.setPasswordConfirm("");
+            user.setPassword(DEFAULT_PASSWORD);
+            user.setPasswordConfirm(DEFAULT_PASSWORD);
             return user;
         } catch (EmptyResultDataAccessException ex) {
             throw new UserNotFoundException(username);
+        }
+    }
+
+    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
+    @PreAuthorize("isFullyAuthenticated()")
+    @ResponseBody
+    public void addUser(@RequestBody String jsonUser) throws UserNotFoundException {
+        LOGGER.debug("UserRest.addUser()");
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            User user = mapper.readValue(jsonUser, User.class);
+            userService.addUser(user);
+        } catch (IOException e) {
+            LOGGER.debug("UserRest.addUser()\n" + e.fillInStackTrace());
         }
     }
 
@@ -74,10 +81,16 @@ public class UserRest {
         ObjectMapper mapper = new ObjectMapper();
         try {
             User user = mapper.readValue(jsonUser, User.class);
-            userService.updateUser(user);
+            if (user.getPassword().equals(DEFAULT_PASSWORD)) {
+                userService.updateUserWithoutPassword(user);
+            } else {
+                userService.updateUserWithPassword(user);
+            }
         } catch (IOException e) {
             LOGGER.debug("UserRest.editUser()\n" + e.fillInStackTrace());
         }
     }
+
+
 
 }

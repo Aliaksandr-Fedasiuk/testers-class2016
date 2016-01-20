@@ -45,7 +45,7 @@
         }
 
         function Create(user) {
-            return $http.post('http://localhost:8090/rest/v1/add', user)
+            return $http.post('http://localhost:8090/rest/v1/user/add', user)
                 .then(handleSuccess, handleError('Error creating user'));
         }
 

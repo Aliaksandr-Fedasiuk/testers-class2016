@@ -19,7 +19,7 @@ public interface UserDao {
 
     Integer addUser(User user);
 
-    void updateUser(User user);
+    void updateUser(User user, boolean isPasswordNeedUpdate);
 
     void deleteUser(Integer userId);
 

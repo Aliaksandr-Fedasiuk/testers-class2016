@@ -57,15 +57,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void updateUser(User user) {
-        LOGGER.debug("updateUser({})", user);
+    public void updateUserWithPassword(User user) {
+        LOGGER.debug("updateUserWithPassword({})", user);
+        userDao.updateUser(user, true);
+    }
+
+    @Override
+    public void updateUserWithoutPassword(User user) {
+        LOGGER.debug("updateUserWithoutPassword({})", user);
         User srcUser = userDao.getUserById(user.getUserId()).get(0);
-        if (!srcUser.equals(user)) {
-            userDao.updateUser(user);
+        if (!srcUser.equalsExcludePassword(user)) {
+            userDao.updateUser(user, false);
         } else {
             LOGGER.debug("Users are equals. Username: " + user.getLogin());
         }
     }
+
 
     @Override
     public void deleteUser(Integer userId) {
