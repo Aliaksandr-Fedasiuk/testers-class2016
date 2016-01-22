@@ -2,16 +2,12 @@ package com.epam.brest.courses.testers.domain;
 
 import com.epam.brest.courses.testers.view.UserView;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonView;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Created by xalf on 25.12.15.

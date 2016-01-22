@@ -8,6 +8,7 @@
     UserService.$inject = ['$http', '$location'];
     function UserService($http, $location) {
         var service = {};
+        var serverUrl = 'http://localhost:8090/rest/v1';
 
         service.GetAll = GetAll;
         service.GetById = GetById;
@@ -19,7 +20,7 @@
         return service;
 
         function GetAll() {
-            return $http.get('http://localhost:8090/rest/v1/users').then(
+            return $http.get(serverUrl + '/users').then(
                 function(response) {
                     console.log('success', response);
                     return handleSuccess(response);
@@ -29,33 +30,38 @@
                     handleError('Error getting all users')
                     if (data.statusText == "Unauthorized") {
                         $location.path('/login');
-                        console.log($location.path());
                     }
                 }
             );
         }
 
         function GetById(id) {
-            return $http.get('http://localhost:8090/rest/v1/user/' + userId).then(handleSuccess, handleError('Error getting user by id'));
+            return $http.get(serverUrl + '/user/' + userId).then(handleSuccess, handleError('Error getting user by id'));
         }
 
         function GetByUsername(username) {
-            return $http.get('http://localhost:8090/rest/v1/user/' + username)
+            return $http.get(serverUrl + '/user/' + username)
                 .then(handleSuccess, handleError('Error getting user by username'));
         }
 
-        function Create(user) {
-            return $http.post('http://localhost:8090/rest/v1/user/add', user)
-                .then(handleSuccess, handleError('Error creating user'));
+        function Create(user, callback) {
+            return $http.post(serverUrl + '/user/add', user)
+                .success(function (data, status, header, config) {
+                    callback(status, data);
+                })
+                .error(function(data, status, header, config) {
+                    callback(status, data);
+                });
         }
 
         function Update(user) {
-            return $http.put('http://localhost:8090/rest/v1/user/put', user)
+            return $http.put(serverUrl + '/user/put', user)
                 .then(handleSuccess, handleError('Error updating user'));
         }
 
         function Delete(id) {
-            return $http.delete('/api/users/' + id).then(handleSuccess, handleError('Error deleting user'));
+            return $http.delete(serverUrl + '/user/delete/' + id)
+                .then(handleSuccess, handleError('Error deleting user'));
         }
 
         // private functions

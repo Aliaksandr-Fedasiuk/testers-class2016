@@ -75,7 +75,7 @@ public class TokenAuthenticationFilter extends GenericFilterBean {
 
         if (authorization != null) {
             checkBasicAuthorization(authorization, httpResponse);
-            doNotContinueWithRequestProcessing(httpRequest);
+            //doNotContinueWithRequestProcessing(httpRequest);
         } else if (username != null && password != null) {
             checkUsernameAndPassword(username, password, httpResponse);
             doNotContinueWithRequestProcessing(httpRequest);

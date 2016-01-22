@@ -67,10 +67,9 @@ public class AuthenticationServiceDefault implements AuthenticationService {
             return false;
         }
 
-        Authentication securityToken = new PreAuthenticatedAuthenticationToken(
-                userDetails, null, userDetails.getAuthorities());
+        Authentication securityToken =
+                new PreAuthenticatedAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(securityToken);
-
         return true;
     }
 
