@@ -156,6 +156,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void deleteUser(Integer userId) {
         LOGGER.debug("deleteUser({})", userId);
+        jdbcTemplate.update(deleteUserSql, userId);
     }
 
     private List<User> rowMapper(List<Map<String, Object>> values) {

@@ -69,7 +69,6 @@ public class UserRest {
     @ResponseBody
     public ResponseEntity<String> addUser(@RequestBody String jsonUser, HttpServletResponse response) throws UserNotFoundException {
         LOGGER.debug("UserRest.addUser()");
-        System.out.println("UserRest.addUser()");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ObjectMapper mapper = new ObjectMapper();
@@ -83,7 +82,7 @@ public class UserRest {
                 userService.addUser(user);
             } catch (IllegalArgumentException ex) {
 
-                return new ResponseEntity<String>(ex.getMessage() ,httpHeaders, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<String>(ex.getMessage(), httpHeaders, HttpStatus.BAD_REQUEST);
             }
         } catch (IOException ex) {
             LOGGER.debug("UserRest.addUser()\n" + ex.fillInStackTrace());
@@ -109,6 +108,15 @@ public class UserRest {
         }
     }
 
-
+    @RequestMapping(value = "/user/delete/{userId}", method = RequestMethod.DELETE)
+    @PreAuthorize("isFullyAuthenticated()")
+    @ResponseBody
+    public void deleteUser(@PathVariable(value = "userId") Integer userId) throws UserNotFoundException {
+        LOGGER.debug("UserRest.deleteUser()");
+        List<User> users = userService.getUserById(userId);
+        notEmpty(users);
+        isTrue(!users.get(0).getRole().equals(User.Role.ROLE_ADMIN));
+        userService.deleteUser(userId);
+    }
 
 }
