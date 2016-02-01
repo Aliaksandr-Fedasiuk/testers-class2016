@@ -25,7 +25,7 @@
             <td style="vertical-align:middle">{{user.managerId}}</td>
             <td style="vertical-align:middle">{{user.amount}}</td>
             <td style="vertical-align:middle">
-                <button type="button" class="btn btn-primary" ng-really-message="Are you sure?" ng-really-click="vm.deleteUser(user.userId)">Delete</button>
+                <button type="button" class="btn btn-primary" ng-disabled="user.role == 'ROLE_ADMIN'" ng-really-message="Are you sure?" ng-really-click="vm.deleteUser(user.userId)">Delete</button>
             </td>
         </tr>
         </tbody>

@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             <label for="role">Role</label>
-            <select name="role" id="role" class="form-control" ng-model="vm.user.role">
+            <select name="role" id="role" class="form-control" ng-model="vm.user.role" ng-disabled="vm.user.role == 'ROLE_ADMIN'">
                 <option value="ROLE_ADMIN">ADMIN</option>
                 <option value="ROLE_MANAGER">MANAGER</option>
                 <option value="ROLE_SUBORDINATE">SUBORDINATE</option>
