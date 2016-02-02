@@ -38,6 +38,12 @@
                 controllerAs: 'vm'
             })
 
+            .when('/actions/:username', {
+                controller: 'ActionsController',
+                templateUrl: 'actions.view.html',
+                controllerAs: 'vm'
+            })
+
             .otherwise({ redirectTo: '/login' });
 
     }
