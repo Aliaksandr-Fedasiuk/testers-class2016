@@ -11,6 +11,8 @@ public interface UserService {
 
     List<User> getUsers();
 
+    List<User> getManagers(String role);
+
     List<User> getUserById(Integer userId);
 
     List<User> getUserByLogin(String login);

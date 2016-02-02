@@ -42,6 +42,7 @@ public class UserDaoImpl implements UserDao {
     public static final String PASSWORD = "password";
     public static final String AMOUNT = "amount";
     public static final String MANAGER_ID = "managerId";
+    public static final String MANAGER_NAME = "managerName";
     public static final String ROLE = "role";
     public static final String CREATED_DATE = "createdDate";
     public static final String UPDATED_DATE = "updatedDate";
@@ -73,6 +74,9 @@ public class UserDaoImpl implements UserDao {
     @Value("${user.deleteUser}")
     private String deleteUserSql;
 
+    @Value("${user.managersSelectSql}")
+    private String managersSelectSql;
+
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -86,6 +90,12 @@ public class UserDaoImpl implements UserDao {
     public List<User> getUsers() {
         LOGGER.debug("getUsers()");
         return rowMapper(jdbcTemplate.queryForList(userSelectSql));
+    }
+
+    @Override
+    public List<User> getManagers(String role) {
+        LOGGER.debug("getManagers({})", role);
+        return rowMapper(jdbcTemplate.queryForList(managersSelectSql, role));
     }
 
     @Override
@@ -168,6 +178,7 @@ public class UserDaoImpl implements UserDao {
             user.setPassword(valueOf(row.get(PASSWORD)));
             user.setAmount(parseDouble(valueOf(row.get(AMOUNT))));
             user.setManagerId(parseInt(valueOf(row.get(MANAGER_ID))));
+            user.setManagerName(valueOf(valueOf(row.get(MANAGER_NAME))));
             user.setCreatedDate(parseTimestamp((Timestamp) row.get(CREATED_DATE)));
             user.setUpdatedDate(parseTimestamp((Timestamp) row.get(UPDATED_DATE)));
             users.add(user);

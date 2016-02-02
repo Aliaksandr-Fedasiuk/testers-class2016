@@ -17,8 +17,8 @@
         </div>
         <div class="form-group">
             <label for="role">Role</label>
-            <select name="role" id="role" class="form-control" ng-selected="$first" ng-model="vm.user.role">
-                <option value="ROLE_ADMIN">ADMIN</option>
+            <select name="role" id="role" class="form-control" ng-model="vm.user.role" ng-change="vm.loadManagers()">
+                <option value="">Select Role</option>
                 <option value="ROLE_MANAGER">MANAGER</option>
                 <option value="ROLE_SUBORDINATE">SUBORDINATE</option>
             </select>
@@ -32,6 +32,12 @@
             <label for="passwordConfirm">Confirmation Password</label>
             <input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control" ng-model="vm.user.passwordConfirm" required />
             <span ng-show="form.passwordConfirm.$dirty && form.passwordConfirm.$error.required" class="help-block">Confirmation Password is required</span>
+        </div>
+        <div>
+            <label for="manager">Manager</label>
+            <select name="manager" id="manager" class="form-control" ng-model="vm.user.managerId" ng-options="item.userId as item.name for item in vm.managers">
+                <option value="">Select Manager</option>
+            </select>
         </div>
         <br/>
         <div class="form-actions">

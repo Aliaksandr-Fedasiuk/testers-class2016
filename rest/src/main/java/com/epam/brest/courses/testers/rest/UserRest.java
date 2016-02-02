@@ -47,6 +47,20 @@ public class UserRest {
         return users;
     }
 
+    @RequestMapping(value = "/managers/{role}", method = RequestMethod.GET)
+    @PreAuthorize("isFullyAuthenticated()")
+    @JsonView(UserView.Summary.class)
+    @ResponseBody
+    public List<User> getManagers(@PathVariable(value = "role") String role) {
+        LOGGER.debug("UserRest.getManagers()");
+        List<User> users = userService.getManagers(role);
+        for (User user : users) {
+            user.setPassword(DEFAULT_PASSWORD);
+            user.setPasswordConfirm(DEFAULT_PASSWORD);
+        }
+        return users;
+    }
+
     @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
     @PreAuthorize("isFullyAuthenticated()")
     @JsonView(UserView.Summary.class)

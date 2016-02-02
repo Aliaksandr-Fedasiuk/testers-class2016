@@ -13,6 +13,8 @@ public interface UserDao {
 
     List<User> getUserById(Integer userId);
 
+    List<User> getManagers(String role);
+
     List<User> getUserByLogin(String login);
 
     Integer getTotalUsersCount();

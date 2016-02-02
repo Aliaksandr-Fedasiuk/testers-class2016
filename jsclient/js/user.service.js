@@ -11,6 +11,7 @@
         var serverUrl = 'http://localhost:8090/rest/v1';
 
         service.GetAll = GetAll;
+        service.GetManagers = GetManagers;
         service.GetById = GetById;
         service.GetByUsername = GetByUsername;
         service.Create = Create;
@@ -42,6 +43,11 @@
         function GetByUsername(username) {
             return $http.get(serverUrl + '/user/' + username)
                 .then(handleSuccess, handleError('Error getting user by username'));
+        }
+
+        function GetManagers(role) {
+            return $http.get(serverUrl + '/managers/' + role)
+                .then(handleSuccess, handleError('Error getting managers'));
         }
 
         function Create(user, callback) {

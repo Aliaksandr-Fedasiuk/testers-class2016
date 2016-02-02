@@ -33,6 +33,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public List<User> getManagers(String role) {
+        LOGGER.debug("getManagers({})", role);
+        if (role.equals("ROLE_MANAGER")) {
+            role = "ROLE_ADMIN";
+        } else {
+            role = "ROLE_MANAGER";
+        }
+        return userDao.getManagers(role);
+    }
+
+    @Override
     public List<User> getUserById(Integer userId) {
         LOGGER.debug("getUserById({})", userId);
         return userDao.getUserById(userId);

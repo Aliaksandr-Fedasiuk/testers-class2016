@@ -41,6 +41,9 @@ public class User {
     private Integer managerId = 0;
 
     @JsonView(UserView.Summary.class)
+    private String managerName;
+
+    @JsonView(UserView.Summary.class)
     private final Role role;
 
     @JsonView(UserView.Summary.class)
@@ -112,6 +115,14 @@ public class User {
 
     public void setManagerId(Integer managerId) {
         this.managerId = managerId;
+    }
+
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
     }
 
     public Double getAmount() {
