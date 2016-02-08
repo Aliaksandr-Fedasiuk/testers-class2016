@@ -35,6 +35,13 @@
             <input type="text" name="amount" id="amount" class="form-control" ng-model="vm.user.amount" required readonly />
             <span ng-show="form.amount.$dirty && form.amount.$error.required" class="help-block">Amount is required</span>
         </div>
+        <div>
+            <label for="manager">Manager</label>
+            <select name="manager" id="manager" class="form-control" ng-model="vm.user.managerId" ng-options="item.userId as item.name for item in vm.managers">
+                <option value="">Select Manager</option>
+            </select>
+        </div>
+        <br/>
         <div class="form-actions">
             <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Update</button>
             <a href="#/" class="btn btn-primary">Cancel</a>

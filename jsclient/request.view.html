@@ -1,0 +1,33 @@
+<h1>User requests.</h1>
+</br>
+<p>&nbsp;</p>
+<p>&nbsp;<a href="#/add" class="btn btn-primary">New request</a></p>
+<br/>
+<h3>&nbsp;All user requests:</h3>
+<br/>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Request Id</th>
+            <th>Status</th>
+            <th>Description</th>
+            <th>Created Date</th>
+            <th>Updated Date</th>
+        </tr>
+        </thead>
+        <tbody id="requestsList">
+        <tr ng-repeat="request in vm.allRequests">
+            <td style="vertical-align:middle"><a href="#edit/{{request.requestId}}" data-identity={{request.requestId}}>{{request.requestId}}</a></td>
+            <td style="vertical-align:middle">{{request.status}}</td>
+            <td style="vertical-align:middle">{{request.description}}</td>
+            <td style="vertical-align:middle">{{request.createdDate}}</td>
+            <td style="vertical-align:middle">{{request.updatedDate}}</td>
+            <td style="vertical-align:middle">
+                <button type="button" class="btn btn-primary" ng-really-message="Are you sure you want to delete user request?" ng-really-click="vm.deleteRequest(request.requestId)">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+

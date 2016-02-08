@@ -26,7 +26,7 @@
             <td style="vertical-align:middle">{{user.managerName}}</td>
             <td style="vertical-align:middle">{{user.amount}}</td>
             <td style="vertical-align:middle">
-                <a href="#actions/{{user.login}}" class="btn btn-primary" data-identity={{user.userId}}>Actions</a>
+                <a href="#request/{{user.userId}}" class="btn btn-primary" data-identity={{user.userId}}>Requests</a>
             </td>
             <td style="vertical-align:middle">
                 <button type="button" class="btn btn-primary" ng-disabled="user.role == 'ROLE_ADMIN'" ng-really-message="Are you sure you want to delete user?" ng-really-click="vm.deleteUser(user.userId)">Delete</button>

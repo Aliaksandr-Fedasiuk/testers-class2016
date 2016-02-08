@@ -22,6 +22,9 @@ public class Request {
     @JsonView(RequestView.Summary.class)
     private Status status;
 
+    @JsonView(RequestView.Summary.class)
+    private String description;
+
     @JsonView(UserView.Summary.class)
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private Date createdDate = new Date();
@@ -57,6 +60,14 @@ public class Request {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getCreatedDate() {

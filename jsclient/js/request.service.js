@@ -3,25 +3,23 @@
 
     angular
         .module('app')
-        .factory('UserService', UserService);
+        .factory('RequestService', RequestService);
 
-    UserService.$inject = ['$http', '$location'];
-    function UserService($http, $location) {
+    RequestService.$inject = ['$http', '$location'];
+    function RequestService($http, $location) {
         var service = {};
         var serverUrl = 'http://localhost:8090/rest/v1';
 
         service.GetAll = GetAll;
-        service.GetManagers = GetManagers;
         service.GetById = GetById;
-        service.GetByUsername = GetByUsername;
         service.Create = Create;
         service.Update = Update;
         service.Delete = Delete;
 
         return service;
 
-        function GetAll() {
-            return $http.get(serverUrl + '/users').then(
+        function GetAll(userId) {
+            return $http.get(serverUrl + '/requests/' + userId).then(
                 function(response) {
                     console.log('success', response);
                     return handleSuccess(response);
@@ -36,23 +34,13 @@
             );
         }
 
-        function GetById(userId) {
-            return $http.get(serverUrl + '/user/' + userId)
-                .then(handleSuccess, handleError('Error getting user by id'));
-        }
-
-        function GetByUsername(username) {
-            return $http.get(serverUrl + '/user/' + username)
-                .then(handleSuccess, handleError('Error getting user by username'));
-        }
-
-        function GetManagers(role) {
-            return $http.get(serverUrl + '/managers/' + role)
-                .then(handleSuccess, handleError('Error getting managers'));
+        function GetById(requestId) {
+            return $http.get(serverUrl + '/request/' + requestId)
+                .then(handleSuccess, handleError('Error getting request by id'));
         }
 
         function Create(user, callback) {
-            return $http.post(serverUrl + '/user/add', user)
+            return $http.post(serverUrl + '/request/add', user)
                 .success(function (data, status, header, config) {
                     callback(status, data);
                 })
@@ -62,13 +50,13 @@
         }
 
         function Update(user) {
-            return $http.put(serverUrl + '/user/put', user)
-                .then(handleSuccess, handleError('Error updating user'));
+            return $http.put(serverUrl + '/request/put', user)
+                .then(handleSuccess, handleError('Error updating request'));
         }
 
         function Delete(id) {
-            return $http.delete(serverUrl + '/user/delete/' + id)
-                .then(handleSuccess, handleError('Error deleting user'));
+            return $http.delete(serverUrl + '/request/delete/' + id)
+                .then(handleSuccess, handleError('Error deleting request'));
         }
 
         // private functions

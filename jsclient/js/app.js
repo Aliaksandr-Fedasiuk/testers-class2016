@@ -38,9 +38,9 @@
                 controllerAs: 'vm'
             })
 
-            .when('/actions/:username', {
-                controller: 'ActionsController',
-                templateUrl: 'actions.view.html',
+            .when('/request/:userId', {
+                controller: 'RequestController',
+                templateUrl: 'request.view.html',
                 controllerAs: 'vm'
             })
 
