@@ -38,6 +38,7 @@ public class RequestDaoImpl implements RequestDao {
     public static final String USER_ID = "userId";
     public static final String STATUS = "status";
     public static final String REQUEST_ID = "requestId";
+    public static final String DESCRIPTION = "description";
     public static final String CREATED_DATE = "createdDate";
     public static final String UPDATED_DATE = "updatedDate";
 
@@ -136,6 +137,7 @@ public class RequestDaoImpl implements RequestDao {
             Request request = new Request(parseInt(String.valueOf(row.get(USER_ID))),
                     Status.valueOf(String.valueOf(row.get(STATUS))));
             request.setRequestId(parseInt(String.valueOf(row.get(REQUEST_ID))));
+            request.setDescription(String.valueOf(row.get(DESCRIPTION)));
             request.setCreatedDate(UserDaoImpl.parseTimestamp((Timestamp) row.get(CREATED_DATE)));
             request.setUpdatedDate(UserDaoImpl.parseTimestamp((Timestamp) row.get(UPDATED_DATE)));
             requests.add(request);
