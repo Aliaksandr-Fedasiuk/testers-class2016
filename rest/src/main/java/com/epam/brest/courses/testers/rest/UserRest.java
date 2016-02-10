@@ -78,10 +78,9 @@ public class UserRest {
         }
     }
 
-    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
-    @PreAuthorize("isFullyAuthenticated()")
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<String> addUser(@RequestBody String jsonUser, HttpServletResponse response) throws UserNotFoundException {
+    public ResponseEntity<String> addUser(@RequestBody String jsonUser) throws UserNotFoundException {
         LOGGER.debug("UserRest.addUser()");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -95,7 +94,6 @@ public class UserRest {
             } catch (EmptyResultDataAccessException ex) {
                 userService.addUser(user);
             } catch (IllegalArgumentException ex) {
-
                 return new ResponseEntity<String>(ex.getMessage(), httpHeaders, HttpStatus.BAD_REQUEST);
             }
         } catch (IOException ex) {

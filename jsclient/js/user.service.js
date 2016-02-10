@@ -52,13 +52,16 @@
         }
 
         function Create(user, callback) {
-            return $http.post(serverUrl + '/user/add', user)
-                .success(function (data, status, header, config) {
-                    callback(status, data);
-                })
-                .error(function(data, status, header, config) {
-                    callback(status, data);
-                });
+            return $http.post(serverUrl + '/registration', user).then(
+                function (response) {
+                    console.log('success', response);
+                    return handleSuccess(response);
+                },
+                function (data) {
+                    console.log('error', data);
+                    return handleError(data);
+                }
+            );
         }
 
         function Update(user) {
@@ -71,15 +74,12 @@
                 .then(handleSuccess, handleError('Error deleting user'));
         }
 
-        // private functions
         function handleSuccess(response) {
-            return response.data;
+            return { success: true, message: response };
         }
 
         function handleError(error) {
-            return function () {
-                return { success: false, message: error };
-            };
+            return { success: false, message: error };
         }
     }
 

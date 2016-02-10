@@ -5,8 +5,8 @@
         .module('app')
         .controller('RegisterController', RegisterController);
 
-    RegisterController.$inject = ['UserService', '$location', '$rootScope', 'FlashService'];
-    function RegisterController(UserService, $location, $rootScope, FlashService) {
+    RegisterController.$inject = ['UserService', '$location', 'FlashService'];
+    function RegisterController(UserService, $location, FlashService) {
         var vm = this;
 
         vm.register = register;
@@ -16,10 +16,10 @@
             UserService.Create(vm.user)
                 .then(function (response) {
                     if (response.success) {
-                        FlashService.Success('Registration successful', true);
+                        FlashService.Success('Registration successful.', true);
                         $location.path('/login');
                     } else {
-                        FlashService.Error(response.message);
+                        FlashService.Error(response.message, false);
                         vm.dataLoading = false;
                     }
                 });
