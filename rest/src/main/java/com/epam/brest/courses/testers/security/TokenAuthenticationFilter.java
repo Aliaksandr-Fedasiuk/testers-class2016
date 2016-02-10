@@ -106,7 +106,16 @@ public class TokenAuthenticationFilter extends GenericFilterBean {
             httpResponse.setHeader(HEADER_TOKEN, tokenInfo.getToken());
             // TODO set other token information possible: IP, ...
         } else {
-            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            httpResponse.setContentType("application/json");
+            httpResponse.setCharacterEncoding("UTF-8");
+            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: Access is denied due to invalid credentials.");
+
+            //httpResponse.resetBuffer();
+            //httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            //httpResponse.setHeader("Content-Type", "application/json");
+            //httpResponse.getWriter().write("Unauthorized. Access is denied due to invalid credentials.");
+            //httpResponse.getWriter().flush();
+            //httpResponse.getWriter().close();
         }
     }
 

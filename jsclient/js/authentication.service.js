@@ -24,7 +24,7 @@
 
             var config = {
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "Content-Type": "application/json; charset=UTF-8",
                     "X-Username": username,
                     "X-Password": password
                 }
@@ -34,11 +34,13 @@
                 .success(function (data, status, header, config) {
                     callback(username, status, header);
                 })
-                .error(function(data, status, header, config) {
-                    console.log((data || 'Req Failed') + ': ' + status);
-                    FlashService.Error(status);
+                .error(function(data, status) {
+                    if (status == 401) {
+                        FlashService.Error("Unauthorized: Access is denied due to invalid credentials.", false);
+                    } else {
+                        FlashService.Error("Request error: " + status, false);
+                    }
                 });
-
         }
 
         function SetCredentials(username, header) {

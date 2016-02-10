@@ -23,11 +23,9 @@
         function GetAll() {
             return $http.get(serverUrl + '/users').then(
                 function(response) {
-                    console.log('success', response);
                     return handleSuccess(response);
                 },
                 function(data) {
-                    console.log('error', data);
                     handleError('Error getting all users')
                     if (data.statusText == "Unauthorized") {
                         $location.path('/login');
@@ -75,11 +73,13 @@
         }
 
         function handleSuccess(response) {
-            return { success: true, message: response };
+            return response.data;
         }
 
         function handleError(error) {
-            return { success: false, message: error };
+            return function () {
+                return { success: false, message: error };
+            }
         }
     }
 
