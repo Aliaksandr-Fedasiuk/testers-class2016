@@ -10,8 +10,8 @@
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     }]);
 
-    AuthenticationService.$inject = ['$http', '$cookieStore', '$rootScope', '$timeout', 'UserService'];
-    function AuthenticationService($http, $cookieStore, $rootScope, $timeout, UserService) {
+    AuthenticationService.$inject = ['$http', '$cookieStore', '$rootScope', '$timeout', 'UserService', 'FlashService'];
+    function AuthenticationService($http, $cookieStore, $rootScope, $timeout, UserService, FlashService) {
         var service = {};
 
         service.Login = Login;
@@ -34,9 +34,11 @@
                 .success(function (data, status, header, config) {
                     callback(username, status, header);
                 })
-                .error(function(data, status) {
+                .error(function(data, status, header, config) {
                     console.log((data || 'Req Failed') + ': ' + status);
+                    FlashService.Error(status);
                 });
+
         }
 
         function SetCredentials(username, header) {
