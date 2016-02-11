@@ -35,7 +35,7 @@
                     callback(username, status, header);
                 })
                 .error(function(data, status) {
-                    callback(null, status);
+                    callback(data, status);
                 });
         }
 

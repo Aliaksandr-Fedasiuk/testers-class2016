@@ -81,7 +81,7 @@ public class UserRest {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<String> addUser(@RequestBody String jsonUser, HttpServletResponse httpResponse) throws UserNotFoundException {
+    public ResponseEntity<String> addUser(@RequestBody String jsonUser) throws UserNotFoundException {
         LOGGER.debug("UserRest.addUser()");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.TEXT_PLAIN);

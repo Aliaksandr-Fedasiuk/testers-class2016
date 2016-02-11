@@ -16,16 +16,12 @@
 
         function login() {
             vm.dataLoading = true;
-            AuthenticationService.Login(vm.username, vm.password, function (username, status, header) {
+            AuthenticationService.Login(vm.username, vm.password, function (data, status, header) {
                 if (status == 200) {
-                    AuthenticationService.SetCredentials(username, header);
+                    AuthenticationService.SetCredentials(data, header);
                     $location.path('/');
                 } else {
-                    if (status == 401) {
-                        FlashService.Error("Unauthorized: Access is denied due to invalid credentials.", false);
-                    } else {
-                        FlashService.Error("Request error: " + status, false);
-                    }
+                    FlashService.Error(data, false);
                     vm.dataLoading = false;
                 }
             });
