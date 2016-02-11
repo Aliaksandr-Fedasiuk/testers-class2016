@@ -21,7 +21,11 @@
                     AuthenticationService.SetCredentials(username, header);
                     $location.path('/');
                 } else {
-                    FlashService.Error(response.message, false);
+                    if (status == 401) {
+                        FlashService.Error("Unauthorized: Access is denied due to invalid credentials.", false);
+                    } else {
+                        FlashService.Error("Request error: " + status, false);
+                    }
                     vm.dataLoading = false;
                 }
             });

@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static javax.servlet.http.HttpServletResponse.*;
 import static org.springframework.util.Assert.*;
 
 /**
@@ -80,24 +81,28 @@ public class UserRest {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<String> addUser(@RequestBody String jsonUser) throws UserNotFoundException {
+    public ResponseEntity<String> addUser(@RequestBody String jsonUser, HttpServletResponse httpResponse) throws UserNotFoundException {
         LOGGER.debug("UserRest.addUser()");
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setContentType(MediaType.TEXT_PLAIN);
         ObjectMapper mapper = new ObjectMapper();
         try {
             User user = mapper.readValue(jsonUser, User.class);
-            notNull(user.getLogin(), "User login should not be empty.");
-            hasLength(user.getLogin(), "User login should not be empty.");
+            if ((user.getLogin() == null) || (user.getLogin().length() == 0)) {
+                return new ResponseEntity<String>("User login should not be empty.", httpHeaders, HttpStatus.BAD_REQUEST);
+            }
             try {
-                isTrue(userService.getUserByLogin(user.getLogin()).size() == 0, "User login should be unique.");
+                if (userService.getUserByLogin(user.getLogin()).size() > 0) {
+                    return new ResponseEntity<String>("User login should be unique.", httpHeaders, HttpStatus.BAD_REQUEST);
+                }
             } catch (EmptyResultDataAccessException ex) {
                 userService.addUser(user);
             } catch (IllegalArgumentException ex) {
                 return new ResponseEntity<String>(ex.getMessage(), httpHeaders, HttpStatus.BAD_REQUEST);
             }
         } catch (IOException ex) {
-            LOGGER.debug("UserRest.addUser()\n" + ex.fillInStackTrace());
+            LOGGER.error("UserRest.addUser()\n" + ex.fillInStackTrace());
+            return new ResponseEntity<String>(ex.getMessage(), httpHeaders, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<String>(httpHeaders, HttpStatus.OK);
     }

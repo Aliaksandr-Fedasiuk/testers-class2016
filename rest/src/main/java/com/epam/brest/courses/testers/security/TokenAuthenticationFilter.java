@@ -1,5 +1,6 @@
 package com.epam.brest.courses.testers.security;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.web.filter.GenericFilterBean;
@@ -106,16 +107,9 @@ public class TokenAuthenticationFilter extends GenericFilterBean {
             httpResponse.setHeader(HEADER_TOKEN, tokenInfo.getToken());
             // TODO set other token information possible: IP, ...
         } else {
-            httpResponse.setContentType("application/json");
+            httpResponse.setContentType("text/plain");
             httpResponse.setCharacterEncoding("UTF-8");
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: Access is denied due to invalid credentials.");
-
-            //httpResponse.resetBuffer();
-            //httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            //httpResponse.setHeader("Content-Type", "application/json");
-            //httpResponse.getWriter().write("Unauthorized. Access is denied due to invalid credentials.");
-            //httpResponse.getWriter().flush();
-            //httpResponse.getWriter().close();
         }
     }
 

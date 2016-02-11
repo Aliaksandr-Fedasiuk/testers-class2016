@@ -50,16 +50,13 @@
         }
 
         function Create(user, callback) {
-            return $http.post(serverUrl + '/registration', user).then(
-                function (response) {
-                    console.log('success', response);
-                    return handleSuccess(response);
-                },
-                function (data) {
-                    console.log('error', data);
-                    return handleError(data);
-                }
-            );
+            $http.post(serverUrl + '/registration', user)
+                .success(function (data, status, header) {
+                    callback(data, status, header);
+                })
+                .error(function(data, status) {
+                    callback(data, status);
+                });
         }
 
         function Update(user) {

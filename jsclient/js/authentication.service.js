@@ -35,11 +35,7 @@
                     callback(username, status, header);
                 })
                 .error(function(data, status) {
-                    if (status == 401) {
-                        FlashService.Error("Unauthorized: Access is denied due to invalid credentials.", false);
-                    } else {
-                        FlashService.Error("Request error: " + status, false);
-                    }
+                    callback(null, status);
                 });
         }
 
