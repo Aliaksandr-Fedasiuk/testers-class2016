@@ -1,0 +1,19 @@
+<div class="col-md-6 col-md-offset-3">
+    <h2>Add New Request</h2>
+    </br>
+    <div class="bg-danger" ng-show="hasError">
+        <alert ng-repeat="error in errors track by $index" type="danger" close="closeAlert($index)">{{error}}</alert>
+    </div>
+    <form name="form" ng-submit="vm.addRequest()" role="form">
+        <div class="form-group" ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
+            <label for="description">FIO</label>
+            <input type="text" name="description" id="description" class="form-control" ng-model="vm.request.description" required />
+            <span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">Description is required</span>
+        </div>
+        <br/>
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Add</button>
+            <a href="#/" class="btn btn-primary">Cancel</a>
+        </div>
+    </form>
+</div>

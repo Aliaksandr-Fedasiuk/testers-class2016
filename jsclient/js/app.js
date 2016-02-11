@@ -38,9 +38,15 @@
                 controllerAs: 'vm'
             })
 
-            .when('/request/:userId', {
+            .when('/requests/:userId', {
                 controller: 'RequestController',
                 templateUrl: 'request.view.html',
+                controllerAs: 'vm'
+            })
+
+            .when('/request/add', {
+                controller: 'AddRequestController',
+                templateUrl: 'add_req.view.html',
                 controllerAs: 'vm'
             })
 

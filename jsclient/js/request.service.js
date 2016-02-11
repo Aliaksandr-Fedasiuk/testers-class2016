@@ -39,13 +39,13 @@
                 .then(handleSuccess, handleError('Error getting request by id'));
         }
 
-        function Create(user, callback) {
-            return $http.post(serverUrl + '/request/add', user)
-                .success(function (data, status, header, config) {
-                    callback(status, data);
+        function Create(request, callback) {
+            return $http.post(serverUrl + '/request/add', request)
+                .success(function (data, status, header) {
+                    callback(data, status, header);
                 })
-                .error(function(data, status, header, config) {
-                    callback(status, data);
+                .error(function(data, status) {
+                    callback(data, status);
                 });
         }
 
