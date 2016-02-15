@@ -85,6 +85,7 @@ public class RequestDaoImpl implements RequestDao {
 
         LocalDateTime ldt = LocalDateTime.ofInstant(request.getUpdatedDate().toInstant(), ZoneId.systemDefault());
         params.addValue(UPDATED_DATE, ldt.format(UserDaoImpl.formatter));
+        params.addValue(DESCRIPTION, request.getDescription());
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(insertRequestSql, params, keyHolder);

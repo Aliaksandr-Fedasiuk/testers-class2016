@@ -7,8 +7,8 @@
 
     FlashService.$inject = ['$rootScope'];
     function FlashService($rootScope) {
-        var service = {};
 
+        var service = {};
         service.Success = Success;
         service.Error = Error;
 

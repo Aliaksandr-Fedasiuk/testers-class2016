@@ -5,12 +5,14 @@
         .module('app')
         .controller('AddRequestController', AddRequestController);
 
-    AddRequestController.$inject = ['RequestService', '$location', '$scope', 'FlashService'];
-    function AddRequestController(RequestService, $location, $scope, FlashService) {
+    AddRequestController.$inject = ['RequestService', '$location', '$routeParams', '$scope', 'FlashService'];
+    function AddRequestController(RequestService, $location, $routeParams, $scope, FlashService) {
 
         var vm = this;
 
-        vm.request = null;
+        vm.request = {};
+        vm.request.description = null;
+        vm.request.userId = $routeParams.userId;
         vm.addRequest = addRequest;
 
         $scope.errors = [];
@@ -18,9 +20,9 @@
 
         function addRequest() {
             vm.dataLoading = true;
-            RequestService.Create(vm.request, function (status, data) {
+            RequestService.Create(vm.request, function (data, status) {
                 if (status == 200) {
-                    $location.path('request/' + user.userId);
+                    $location.path('/requests/' + $routeParams.userId);
                 } else {
                     if (status == 401) {
                         $location.path('/login');

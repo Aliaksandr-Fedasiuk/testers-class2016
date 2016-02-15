@@ -5,10 +5,9 @@
         .module('app')
         .factory('RequestService', RequestService);
 
-    RequestService.$inject = ['$http', '$location'];
-    function RequestService($http, $location) {
+    RequestService.$inject = ['$http', '$location', '$rootScope'];
+    function RequestService($http, $location, $rootScope) {
         var service = {};
-        var serverUrl = 'http://localhost:8090/rest/v1';
 
         service.GetAll = GetAll;
         service.GetById = GetById;
@@ -19,7 +18,7 @@
         return service;
 
         function GetAll(userId) {
-            return $http.get(serverUrl + '/requests/' + userId).then(
+            return $http.get($rootScope.restUrl + '/requests/' + userId).then(
                 function(response) {
                     console.log('success', response);
                     return handleSuccess(response);
@@ -35,12 +34,12 @@
         }
 
         function GetById(requestId) {
-            return $http.get(serverUrl + '/request/' + requestId)
+            return $http.get($rootScope.restUrl + '/request/' + requestId)
                 .then(handleSuccess, handleError('Error getting request by id'));
         }
 
         function Create(request, callback) {
-            return $http.post(serverUrl + '/request/add', request)
+            return $http.post($rootScope.restUrl + '/request/add', request)
                 .success(function (data, status, header) {
                     callback(data, status, header);
                 })
@@ -50,12 +49,12 @@
         }
 
         function Update(user) {
-            return $http.put(serverUrl + '/request/put', user)
+            return $http.put($rootScope.restUrl + '/request/put', user)
                 .then(handleSuccess, handleError('Error updating request'));
         }
 
         function Delete(id) {
-            return $http.delete(serverUrl + '/request/delete/' + id)
+            return $http.delete($rootScope.restUrl + '/request/delete/' + id)
                 .then(handleSuccess, handleError('Error deleting request'));
         }
 

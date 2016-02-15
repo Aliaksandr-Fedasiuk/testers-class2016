@@ -6,12 +6,19 @@ import com.epam.brest.courses.testers.service.RequestService;
 import com.epam.brest.courses.testers.view.RequestView;
 import com.epam.brest.courses.testers.view.UserView;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -41,6 +48,32 @@ public class RequestRest {
     public Request getRequest(@PathVariable Integer id) {
         LOGGER.debug("RequestRest.getRequest({})", id);
         return requestService.getRequests(id).get(0);
+    }
+
+    @RequestMapping(value = "/request/add", method = RequestMethod.POST)
+    @PreAuthorize("isFullyAuthenticated()")
+    @JsonView(RequestView.Summary.class)
+    @ResponseBody
+    public ResponseEntity<String> addRequest(@RequestBody String jsonRequest) {
+        LOGGER.debug("RequestRest.addRequest()");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.TEXT_PLAIN);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            Request request = mapper.readValue(jsonRequest, Request.class);
+            if ((request.getDescription() == null) || (request.getDescription().length() == 0)) {
+                return new ResponseEntity<String>("Request description should not be empty.", httpHeaders, HttpStatus.BAD_REQUEST);
+            }
+            try {
+                requestService.addRequest(request);
+            } catch (IllegalArgumentException ex) {
+                return new ResponseEntity<String>(ex.getMessage(), httpHeaders, HttpStatus.BAD_REQUEST);
+            }
+        } catch (IOException ex) {
+            LOGGER.error("RequestRest.addRequest()\n" + ex.fillInStackTrace());
+            return new ResponseEntity<String>(ex.getMessage(), httpHeaders, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(httpHeaders, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/request/delete/{requestId}", method = RequestMethod.GET)

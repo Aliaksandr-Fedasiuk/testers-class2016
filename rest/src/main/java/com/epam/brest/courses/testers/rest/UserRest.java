@@ -89,22 +89,30 @@ public class UserRest {
         try {
             User user = mapper.readValue(jsonUser, User.class);
             if ((user.getLogin() == null) || (user.getLogin().length() == 0)) {
-                return new ResponseEntity<String>("User login should not be empty.", httpHeaders, HttpStatus.BAD_REQUEST);
+                return getErrorMessage("User login should not be empty.", httpHeaders);
             }
             try {
                 if (userService.getUserByLogin(user.getLogin()).size() > 0) {
-                    return new ResponseEntity<String>("User login should be unique.", httpHeaders, HttpStatus.BAD_REQUEST);
+                    return getErrorMessage("User login should be unique.", httpHeaders);
+                }
+
+                if (!user.getPassword().equals(user.getPasswordConfirm())) {
+                    return getErrorMessage("Password does not match the confirm password.", httpHeaders);
                 }
             } catch (EmptyResultDataAccessException ex) {
                 userService.addUser(user);
             } catch (IllegalArgumentException ex) {
-                return new ResponseEntity<String>(ex.getMessage(), httpHeaders, HttpStatus.BAD_REQUEST);
+                return getErrorMessage(ex.getMessage(), httpHeaders);
             }
         } catch (IOException ex) {
             LOGGER.error("UserRest.addUser()\n" + ex.fillInStackTrace());
-            return new ResponseEntity<String>(ex.getMessage(), httpHeaders, HttpStatus.BAD_REQUEST);
+            return getErrorMessage(ex.getMessage(), httpHeaders);
         }
         return new ResponseEntity<String>(httpHeaders, HttpStatus.OK);
+    }
+
+    private ResponseEntity<String> getErrorMessage(String message, HttpHeaders httpHeaders) {
+        return new ResponseEntity<String>(message, httpHeaders, HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/user/put", method = RequestMethod.PUT)

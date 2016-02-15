@@ -7,8 +7,8 @@
 
     RegisterController.$inject = ['UserService', '$location', 'FlashService'];
     function RegisterController(UserService, $location, FlashService) {
-        var vm = this;
 
+        var vm = this;
         vm.register = register;
 
         function register() {

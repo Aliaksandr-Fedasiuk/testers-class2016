@@ -44,7 +44,7 @@
                 controllerAs: 'vm'
             })
 
-            .when('/request/add', {
+            .when('/request/add/:userId', {
                 controller: 'AddRequestController',
                 templateUrl: 'add_req.view.html',
                 controllerAs: 'vm'
@@ -60,6 +60,10 @@
         if ($rootScope.globals.currentUser) {
             $http.defaults.headers.common['x-authorization'] = $rootScope.globals.currentUser.authdata;
         }
+
+        $http.get('connection.properties').then(function (response) {
+            $rootScope.restUrl = response.data.restUrl;
+        });
 
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
             // redirect to login page if not logged in and trying to access a restricted page

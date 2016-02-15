@@ -11,6 +11,7 @@
         var vm = this;
 
         vm.request = null;
+        vm.userId = null;
         vm.allRequests = [];
         vm.loadAllRequests = loadAllRequests;
         vm.deleteRequest = deleteRequest;
@@ -25,6 +26,7 @@
             RequestService.GetAll($routeParams.userId)
                 .then(function (requests) {
                         vm.allRequests = requests;
+                        vm.userId = $routeParams.userId;
                     }
                 );
         }

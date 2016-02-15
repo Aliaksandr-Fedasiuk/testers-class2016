@@ -20,7 +20,7 @@ public class Request {
     private Integer userId;
 
     @JsonView(RequestView.Summary.class)
-    private Status status;
+    private Status status = Status.OPEN;
 
     @JsonView(RequestView.Summary.class)
     private String description;
@@ -32,6 +32,9 @@ public class Request {
     @JsonView(UserView.Summary.class)
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private Date updatedDate = new Date();
+
+    public Request() {
+    }
 
     public Request(Integer userId, Status status) {
         this.userId = userId;

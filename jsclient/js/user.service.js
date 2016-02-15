@@ -5,10 +5,9 @@
         .module('app')
         .factory('UserService', UserService);
 
-    UserService.$inject = ['$http', '$location'];
-    function UserService($http, $location) {
+    UserService.$inject = ['$http', '$location', '$rootScope'];
+    function UserService($http, $location, $rootScope) {
         var service = {};
-        var serverUrl = 'http://localhost:8090/rest/v1';
 
         service.GetAll = GetAll;
         service.GetManagers = GetManagers;
@@ -21,12 +20,12 @@
         return service;
 
         function GetAll() {
-            return $http.get(serverUrl + '/users').then(
+            return $http.get($rootScope.restUrl + '/users').then(
                 function(response) {
                     return handleSuccess(response);
                 },
                 function(data) {
-                    handleError('Error getting all users')
+                    handleError('Error getting all users');
                     if (data.statusText == "Unauthorized") {
                         $location.path('/login');
                     }
@@ -35,22 +34,22 @@
         }
 
         function GetById(userId) {
-            return $http.get(serverUrl + '/user/' + userId)
+            return $http.get($rootScope.restUrl + '/user/' + userId)
                 .then(handleSuccess, handleError('Error getting user by id'));
         }
 
         function GetByUsername(username) {
-            return $http.get(serverUrl + '/user/' + username)
+            return $http.get($rootScope.restUrl + '/user/' + username)
                 .then(handleSuccess, handleError('Error getting user by username'));
         }
 
         function GetManagers(role) {
-            return $http.get(serverUrl + '/managers/' + role)
+            return $http.get($rootScope.restUrl + '/managers/' + role)
                 .then(handleSuccess, handleError('Error getting managers'));
         }
 
         function Create(user, callback) {
-            $http.post(serverUrl + '/registration', user)
+            $http.post($rootScope.restUrl + '/registration', user)
                 .success(function (data, status, header) {
                     callback(data, status, header);
                 })
@@ -60,13 +59,13 @@
         }
 
         function Update(user) {
-            return $http.put(serverUrl + '/user/put', user)
-                .then(handleSuccess, handleError('Error updating user'));
+            return $http.put($rootScope.restUrl + '/user/put', user)
+                .then(handleSuccess, handleError('Error updating user.'));
         }
 
         function Delete(id) {
-            return $http.delete(serverUrl + '/user/delete/' + id)
-                .then(handleSuccess, handleError('Error deleting user'));
+            return $http.delete($rootScope.restUrl + '/user/delete/' + id)
+                .then(handleSuccess, handleError('Error deleting user.'));
         }
 
         function handleSuccess(response) {

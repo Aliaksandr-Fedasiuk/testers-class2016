@@ -32,6 +32,13 @@ public class Action {
         this.points = type.points;
     }
 
+    public Action(ActionType type, Integer requestId) {
+        this.type = type;
+        this.points = type.points;
+        this.requestId = requestId;
+    }
+
+
     public Integer getActionId() {
         return actionId;
     }
@@ -78,6 +85,7 @@ public class Action {
 
     public enum ActionType {
 
+        NEW_REQ(0),
         IMPORT_REPORT(2),
         CANCEL_REQ(-2),
         IMPORT_IN_PROGRESS_REQ(0.5),

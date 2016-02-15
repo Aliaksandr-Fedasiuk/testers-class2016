@@ -30,7 +30,7 @@
                 }
             };
 
-            $http.post("http://localhost:8090/rest/v1/login", null, config)
+            $http.post($rootScope.restUrl + "/login", null, config)
                 .success(function (data, status, header, config) {
                     callback(username, status, header);
                 })

@@ -7,8 +7,8 @@
 
     EditUserController.$inject = ['UserService', '$location', '$rootScope', '$routeParams'];
     function EditUserController(UserService, $location, $rootScope, $routeParams) {
-        var vm = this;
 
+        var vm = this;
         vm.saveUser = saveUser;
 
         loadSelectedUser();
