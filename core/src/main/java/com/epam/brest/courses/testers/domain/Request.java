@@ -17,6 +17,7 @@ public class Request {
     @JsonView(RequestView.Summary.class)
     private Integer requestId;
 
+    @JsonView(RequestView.Summary.class)
     private Integer userId;
 
     @JsonView(RequestView.Summary.class)

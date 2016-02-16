@@ -1,5 +1,6 @@
 package com.epam.brest.courses.testers.rest;
 
+import com.epam.brest.courses.testers.UserNotFoundException;
 import com.epam.brest.courses.testers.domain.Request;
 import com.epam.brest.courses.testers.domain.User;
 import com.epam.brest.courses.testers.service.RequestService;
@@ -47,7 +48,7 @@ public class RequestRest {
     @ResponseBody
     public Request getRequest(@PathVariable Integer id) {
         LOGGER.debug("RequestRest.getRequest({})", id);
-        return requestService.getRequests(id).get(0);
+        return requestService.getRequest(id).get(0);
     }
 
     @RequestMapping(value = "/request/add", method = RequestMethod.POST)
@@ -74,6 +75,24 @@ public class RequestRest {
             return new ResponseEntity<String>(ex.getMessage(), httpHeaders, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<String>(httpHeaders, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/request/put", method = RequestMethod.PUT)
+    @PreAuthorize("isFullyAuthenticated()")
+    @ResponseBody
+    public ResponseEntity<String> editRequest(@RequestBody String jsonRequest) throws UserNotFoundException {
+        LOGGER.debug("UserRest.editRequest()");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.TEXT_PLAIN);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            Request request = mapper.readValue(jsonRequest, Request.class);
+            requestService.updateRequest(request);
+            return new ResponseEntity<String>(httpHeaders, HttpStatus.OK);
+        } catch (IOException ex) {
+            LOGGER.debug("UserRest.editRequest()\n" + ex.fillInStackTrace());
+            return new ResponseEntity<String>(ex.getMessage(), httpHeaders, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(value = "/request/delete/{requestId}", method = RequestMethod.GET)

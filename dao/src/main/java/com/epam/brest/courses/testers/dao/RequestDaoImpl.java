@@ -42,6 +42,9 @@ public class RequestDaoImpl implements RequestDao {
     public static final String CREATED_DATE = "createdDate";
     public static final String UPDATED_DATE = "updatedDate";
 
+    @Value("${requests.select}")
+    private String requestsSelectSql;
+
     @Value("${request.select}")
     private String requestSelectSql;
 
@@ -72,6 +75,16 @@ public class RequestDaoImpl implements RequestDao {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", userId);
 
+        List<Map<String, Object>> res = namedParameterJdbcTemplate.queryForList(requestsSelectSql, params);
+        return rowMapper(res);
+    }
+
+    @Override
+    public List<Request> getRequest(Integer requestId) {
+        LOGGER.debug("getRequest({})", requestId);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("requestId", requestId);
+
         List<Map<String, Object>> res = namedParameterJdbcTemplate.queryForList(requestSelectSql, params);
         return rowMapper(res);
     }
@@ -95,15 +108,10 @@ public class RequestDaoImpl implements RequestDao {
     @Override
     public void updateRequest(Request request) {
         LOGGER.debug("updateRequestSql({})", request);
-
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue(USER_ID, request.getUserId());
-        params.addValue(STATUS, request.getStatus().toString());
-
         LocalDateTime ldt = LocalDateTime.ofInstant(request.getUpdatedDate().toInstant(), ZoneId.systemDefault());
-        params.addValue(UPDATED_DATE, ldt.format(UserDaoImpl.formatter));
 
-        jdbcTemplate.update(updateRequestSql, params);
+        jdbcTemplate.update(updateRequestSql, request.getUserId(), request.getStatus().toString(),
+                request.getDescription(), ldt.format(UserDaoImpl.formatter), request.getRequestId());
     }
 
     @Override

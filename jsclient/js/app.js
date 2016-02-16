@@ -46,7 +46,13 @@
 
             .when('/request/add/:userId', {
                 controller: 'AddRequestController',
-                templateUrl: 'add_req.view.html',
+                templateUrl: 'addReq.view.html',
+                controllerAs: 'vm'
+            })
+
+            .when('/request/edit/:requestId', {
+                controller: 'EditRequestController',
+                templateUrl: 'editReq.view.html',
                 controllerAs: 'vm'
             })
 

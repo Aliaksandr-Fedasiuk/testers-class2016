@@ -5,13 +5,13 @@
         .module('app')
         .controller('RequestController', RequestController);
 
-    RequestController.$inject = ['RequestService', '$location', '$routeParams'];
-    function RequestController(RequestService, $location, $routeParams) {
+    RequestController.$inject = ['RequestService', '$routeParams'];
+    function RequestController(RequestService, $routeParams) {
 
         var vm = this;
 
         vm.request = null;
-        vm.userId = null;
+        vm.userId = $routeParams.userId;
         vm.allRequests = [];
         vm.loadAllRequests = loadAllRequests;
         vm.deleteRequest = deleteRequest;
@@ -23,10 +23,9 @@
         }
 
         function loadAllRequests() {
-            RequestService.GetAll($routeParams.userId)
+            RequestService.GetAll(vm.userId)
                 .then(function (requests) {
                         vm.allRequests = requests;
-                        vm.userId = $routeParams.userId;
                     }
                 );
         }

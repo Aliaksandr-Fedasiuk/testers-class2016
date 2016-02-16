@@ -36,7 +36,7 @@
         }
 
         function addUser() {
-            UserService.Create(vm.user, function (status, data) {
+            UserService.Create(vm.user, function (data, status) {
                 if (status == 200) {
                     UserService.GetAll();
                     $location.path('/');

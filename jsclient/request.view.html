@@ -18,7 +18,7 @@
         </thead>
         <tbody id="requestsList">
         <tr ng-repeat="request in vm.allRequests">
-            <td style="vertical-align:middle"><a href="#edit/{{request.requestId}}" data-identity={{request.requestId}}>{{request.requestId}}</a></td>
+            <td style="vertical-align:middle"><a href="#request/edit/{{request.requestId}}" data-identity={{request.requestId}}>{{request.requestId}}</a></td>
             <td style="vertical-align:middle">{{request.status}}</td>
             <td style="vertical-align:middle">{{request.description}}</td>
             <td style="vertical-align:middle">{{request.createdDate}}</td>

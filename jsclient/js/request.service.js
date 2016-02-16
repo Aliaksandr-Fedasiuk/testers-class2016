@@ -48,9 +48,14 @@
                 });
         }
 
-        function Update(user) {
-            return $http.put($rootScope.restUrl + '/request/put', user)
-                .then(handleSuccess, handleError('Error updating request'));
+        function Update(request, callback) {
+            return $http.put($rootScope.restUrl + '/request/put', request)
+                .success(function (data, status, header) {
+                    callback(data, status, header);
+                })
+                .error(function(data, status) {
+                    callback(data, status);
+                });
         }
 
         function Delete(id) {

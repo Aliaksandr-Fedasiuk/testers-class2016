@@ -12,7 +12,11 @@ public interface RequestService {
 
     List<Request> getRequests(Integer userId);
 
+    List<Request> getRequest(Integer requestId);
+
     Integer addRequest(Request request);
+
+    void updateRequest(Request request);
 
     void deleteRequest(Integer requestId);
 

@@ -5,8 +5,8 @@
         .module('app')
         .controller('EditUserController', EditUserController);
 
-    EditUserController.$inject = ['UserService', '$location', '$rootScope', '$routeParams'];
-    function EditUserController(UserService, $location, $rootScope, $routeParams) {
+    EditUserController.$inject = ['UserService', '$location', '$routeParams'];
+    function EditUserController(UserService, $location, $routeParams) {
 
         var vm = this;
         vm.saveUser = saveUser;

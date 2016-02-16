@@ -31,27 +31,39 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public List<Request> getRequests(Integer userId) {
-        LOGGER.debug("getRequests({})", userId);
+        LOGGER.debug("RequestService.getRequests({})", userId);
         return requestDao.getRequests(userId);
     }
 
     @Override
+    public List<Request> getRequest(Integer requestId) {
+        LOGGER.debug("RequestService.getRequest({})", requestId);
+        return requestDao.getRequest(requestId);
+    }
+
+    @Override
     public Integer addRequest(Request request) {
-        LOGGER.debug("addRequest()", request);
+        LOGGER.debug("RequestService.addRequest()", request);
         Integer requestId = requestDao.addRequest(request);
         actionDao.addAction(new Action(NEW_REQ, requestId));
         return requestId;
     }
 
     @Override
+    public void updateRequest(Request request) {
+        LOGGER.debug("RequestService.updateRequest()", request);
+        requestDao.updateRequest(request);
+    }
+
+    @Override
     public void deleteRequest(Integer requestId) {
-        LOGGER.debug("deleteRequest({})", requestId);
+        LOGGER.debug("RequestService.deleteRequest({})", requestId);
         requestDao.deleteRequest(requestId);
     }
 
     @Override
     public void deleteUserRequests(Integer userId) {
-        LOGGER.debug("deleteUserRequests({})", userId);
+        LOGGER.debug("RequestService.deleteUserRequests({})", userId);
         requestDao.deleteUserRequests(userId);
     }
 }
